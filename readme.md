@@ -1,8 +1,6 @@
 # Heading 1
-* Version 1.0
-* [Version 1.1](#v11) (Added spec for car() query function in Customer that is used in main.cpp)
 
-In this workshop, you will complete your work using member functions and privacy.
+Description here
 
 ## Heading 2
 
