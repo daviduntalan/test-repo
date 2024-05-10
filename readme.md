@@ -1,3 +1,8 @@
+# Guides how to give local repo to access remote repo
+
+Watch again the video tutorial from this folder regarding SSH Keys
+C:\Users\david\Desktop\Seneca\Video Tutorial
+
 # Heading 1
 
 Description here
