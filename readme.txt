@@ -72,3 +72,41 @@ Fetch your SSH key necessary for Creating Github SSH and GPG Keys
 > type %userprofile%\.ssh\id_rsa.pub
 > copy the result and go paste it to Github > Settings > SSH and GPG Keys
 
+
+To check for changes made in a remote Git repository, the most standard and safest 
+method is to fetch the remote updates and check your status. Running 'git fetch' 
+downloads the latest history from the remote repository without changing or overwriting 
+any of your local files. 
+
+Here are the most common and effective ways to see if the remote repository has changes:
+
+    Method 1: The Standard Status Check (Recommended)
+    -------------------------------------------------
+    This method tells you exactly how many commits your local branch is behind the remote tracking branch.
+
+        1.  Download the latest data from your remote repository:
+            > git fetch
+
+        2.  Check your local branch status compared to the remote:
+            > git status 
+
+            - If there are changes, Git will tell you something like:
+            “Your branch is behind 'origin/main' by 2 commits, and can be fast-forwarded.”        
+            - If there are no changes, it will say:
+            “Your branch is up to date with 'origin/main'.”
+
+    Method 2: Preview the Commits
+    -------------------------------------------------
+    If you want to see the specific commit messages that exist on the remote server but 
+    aren't on your machine yet, run this after running 'git fetch'
+
+        > git log HEAD..origin/main
+        (Replace 'main' with the name of the branch you are tracking, such as 'master' or 'develop').
+
+    Method 3: Preview the Exact Code Changes
+    -------------------------------------------------
+    If you want to view the line-by-line code differences before deciding to pull, 
+    compare your current state directly to the remote tracking branch:
+
+        > git diff HEAD origin/main
+        (Replace 'main' with the name of the branch you are tracking, such as 'master' or 'develop').
