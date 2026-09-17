@@ -55,3 +55,20 @@ Depending on your settings, it will handle the integration in one of two ways:
         your local path and the remote path have diverged (nagkahiwa-hiwalay).
 > git pull --rebase: Temporarily removes your local commits, applies the remote updates, 
         and then replays your local changes right on top for a cleaner, linear history.
+
+
+In the command 'git push origin master', origin is the alias (nickname) for your remote repository, 
+and master is the name of the specific branch you are pushing to that repository.
+
+How to update local changes back to remote repository?
+------------------------------------------------------
+> git add readme.txt
+> git commit -m "Updated readme.txt with git fetch and pull differences"
+> git remote set-url origin https://github.com/daviduntalan/test-repo.git
+> git push origin master
+
+Fetch your SSH key necessary for Creating Github SSH and GPG Keys
+-----------------------------------------------------------------
+> type %userprofile%\.ssh\id_rsa.pub
+> copy the result and go paste it to Github > Settings > SSH and GPG Keys
+
