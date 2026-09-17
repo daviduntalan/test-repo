@@ -58,7 +58,7 @@ Depending on your settings, it will handle the integration in one of two ways:
 
 
 In the command 'git push origin master', origin is the alias (nickname) for your remote repository, 
-and master is the name of the specific branch you are pushing to that repository.
+and 'master' is the name of the specific branch you are pushing to that repository.
 
 How to update local changes back to remote repository?
 ------------------------------------------------------
@@ -110,3 +110,108 @@ Here are the most common and effective ways to see if the remote repository has 
 
         > git diff HEAD origin/main
         (Replace 'main' with the name of the branch you are tracking, such as 'master' or 'develop').
+
+
+In the command 'git push origin master', origin is the nickname for your remote repository server, 
+and master is the specific branch name you are sending your code to.
+
+How the command breaks down
+
+- git push: The action. It means "upload my local commits to a remote server."
+- origin: The destination server.
+- master: The destination target.        
+
+
+
+To find out which local branch is currently selected, you can check your status or list your branches. 
+Git also provides a way to see exactly which remote branch your current local branch is tracking.
+-------------------------------------------------------------------------------------------------
+Here are the quickest ways to check:
+
+1. The Quickest Way (git branch)
+Run this command in your terminal:
+
+    > git branch
+
+    * What it shows: It will list all your local branches.
+    * How to read it: The branch with an asterisk (*) next to it and highlighted in green is your currently selected branch.
+
+2. The Detailed Way (git status)
+Run this command to see your selection and your connection to the remote:
+
+    > git status
+      On branch master (1st line)
+      Your branch is up to date with 'origin/master'. (2nd line)
+
+    * The 1st line will explicitly tell you your current branch (e.g., On branch main).
+    * The 2nd line will often tell you exactly which remote branch it is pushing to (e.g., 
+      Your branch is up to date with 'origin/main').
+
+
+How to see ALL local-to-remote mappings
+------------------------------
+If you want to see a clear list of every local branch and the exact remote branch it is linked to, run:
+
+    > git branch -vv
+
+    This will print a list that looks like this:
+
+        * main 12345ab [origin/main] Fix login bug
+        * feature-xyz 67890cd [origin/feature-xyz] Add new button
+
+    The name in the blue brackets [...] is the remote destination 
+    your local branch will push to by default when you just type 'git push'.
+
+
+Pro-Tip: The Shortcut
+------------------------------
+If your local branch is already linked to a remote branch, you don't need to 
+type 'origin master' or 'origin main' every time. You can just type:
+
+    > git push
+
+Git will automatically detect your 'current local branch' and push it straight to its paired remote branch.
+
+
+How to Switch to Different Branches?
+------------------------------------
+To switch to a different branch in Git, you use either the newer 'git switch' command or 
+the traditional 'git checkout' command. Here is how to do it depending on your situation:
+
+    1.  Switch to an existing branch
+        If the branch already exists on your local machine, use one of these commands 
+        followed by the branch name:
+
+        > git switch branch-name (or the older method: git checkout branch-name)
+
+    2.  Create AND switch to a new branch
+        If you want to create a brand new branch and 
+        immediately switch into it, add the creation flag:
+
+        > git switch -c new-branch-name (or the older method: git checkout -b new-branch-name)
+    
+    Important: Check your work first!
+    ---------------------------------
+    Before you switch branches, always run git status to make sure your current work is saved.
+    If you have unstaged or uncommitted changes (code you edited but haven't saved to Git yet), 
+    Git might block you from switching branches to prevent your work from being overwritten. 
+    If that happens, you have three options:
+
+    1. Commit your changes: Run `git add .` and git commit -m "your message" to save them.
+    2. Stash your changes: Run 'git stash' to temporarily shelf your changes, switch branches, and later run 'git stash pop' to bring them back.
+    3. Discard your changes: If you don't care about the changes you made, run `git restore .` to throw them away (be careful, this cannot be undone).
+    
+    Dictionary: 
+        shelf = istante
+        stash = itago
+        pop = sumulpot, limitaw
+
+
+If you only want to skip 'git add .', Git has a built-in flag (-a) that automatically 
+stages modified files during the commit.
+
+    > git commit -am "Your commit message" && git push
+
+    ⚠️Important Catch: 
+    The -a flag only works for modified or deleted files. If you have created brand new files, 
+    Git will ignore them. You must use 'git add .' for new files.
