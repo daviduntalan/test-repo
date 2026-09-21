@@ -215,3 +215,90 @@ stages modified files during the commit.
     ⚠️Important Catch: 
     The -a flag only works for modified or deleted files. If you have created brand new files, 
     Git will ignore them. You must use 'git add .' for new files.
+
+
+
+GIT STASH 
+
+git stash is a built-in Git command that temporarily shelves (saves) your uncommitted local changes so you can work on something else, and then come back and reapply them later. It essentially takes a snapshot of your "dirty" working directory (modified tracked files and staged changes), reverts your project to a clean state, and stores the changes on a local stack.
+
+Why use it?
+
+Imagine you are halfway through writing a new feature, and a teammate asks you to fix an urgent bug on a different branch immediately. You aren't ready to commit your unfinished, messy code, but Git won't let you switch branches with conflicting uncommitted changes.Instead of making a "junk commit" or losing your work, you run git stash. Your workspace clears up, you switch branches to fix the bug, and when you return, you pull your changes back out of the stash.
+
+Core Git Stash Commands: Here is how you interact with the stash stack:
+
+> git stash (or git stash push): 
+  Saves your current modified and staged changes, resetting your workspace to match the last commit.
+
+> git stash push -m "your message": 
+  Saves your stash with a custom description, making it much easier to identify later.
+
+> git stash list: 
+  Shows all the stashes you have saved, ordered as stash@{0}, stash@{1}, etc., with the newest on top.
+
+> git stash pop: 
+  Reapplies the most recent stash to your current branch and permanently deletes it from the stash stack.
+
+> git stash apply: 
+  Reapplies the changes but keeps the stash saved in your history (useful if you want to apply the same changes to multiple branches).
+
+> git stash drop stash@{index}: 
+  Deletes a specific stash from your list without applying it.
+
+Important Pro-Tip 💡
+By default, git stash only saves tracked files (files that have already been committed before or are currently staged). 
+If you have created brand-new files that Git doesn't know about yet (untracked files), 
+they will be left behind in your directory.
+
+To stash everything, including untracked files, use the include untracked flag:
+> git stash -u
+
+
+Resolving conflicts after popping a stash and moving stashed work directly to a new branch
+------------------------------------------------------------------------------------------
+## Scenario 1: Resolving a Conflict After git stash pop
+
+A conflict happens when the code you stashed modifies the exact same lines of a file as the code currently on your branch.
+When you run git stash pop and a conflict occurs, Git will say 'Conflict (content): Merge conflict in [filename]' and 
+will not delete the stash from your list. This is a safety feature so you don't lose your work.
+
+## The Step-by-Step Fix:
+
+   1. Identify the conflicted files: Run 'git status'. Conflicted files will appear in red under "Unmerged paths".
+   2. Open the file(s) and fix the conflict: Open the affected files in your code editor. Look for the conflict markers:
+       
+      <<<<<<< HEAD
+      Code currently on your branch (e.g., from the bug fix you just pulled)
+      =======
+      Code from your saved stash
+      >>>>>>> Captured stash
+       
+      Delete the markers (<<<<<<<, =======, >>>>>>>) and manually edit the lines so the code looks exactly how you want it.
+
+   3. Stage the fix: Tell Git you resolved the conflict by staging the file:
+   
+      git add <filename>
+   
+   4. Drop the stash manually: Because Git paused due to the conflict, it didn't finish the "pop" (which includes deleting the stash). 
+      Once your workspace is clean, delete it yourself so it doesn't clutter your list:
+   
+      git stash drop stash@{0}
+   
+   
+## Scenario 2: Moving Your Stash to a Completely New Branch
+
+Sometimes, you stash work on your main or develop branch, but realize later that those changes really belong on a dedicated feature branch.
+Instead of manually creating a branch, switching to it, and popping the stash, Git provides a single command that does it all for you:
+
+    > git stash branch <new-branch-name> stash@{index}
+    
+    ## Why this command is incredibly useful:
+    
+    * It creates a new branch with the specified name.
+    * It checks out that branch at the exact commit you were on when you originally created the stash.
+    * It applies your stashed changes to this clean environment.
+    * If successful, it automatically drops the stash from your list.
+    
+    Note: If you want to move your most recent stash, you can omit the stash@{index} part at the end).  
+
